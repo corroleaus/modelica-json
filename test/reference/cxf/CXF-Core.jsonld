@@ -6664,8 +6664,12 @@
     },
     {
       "@id": "S231:Buildings.Controls.OBC.CDL.Reals.PID.controllerType",
+      "@type": "S231:Parameter",
       "S231:accessSpecifier": "public",
       "S231:description": "Type of controller",
+      "S231:isOfDataType": {
+        "@id": "S231:Buildings.Controls.OBC.CDL.Types.SimpleController"
+      },
       "S231:label": "controllerType",
       "S231:value": "Buildings.Controls.OBC.CDL.Types.SimpleController.PI"
     },
@@ -7459,8 +7463,12 @@
     },
     {
       "@id": "S231:Buildings.Controls.OBC.CDL.Reals.PIDWithReset.controllerType",
+      "@type": "S231:Parameter",
       "S231:accessSpecifier": "public",
       "S231:description": "Type of controller",
+      "S231:isOfDataType": {
+        "@id": "S231:Buildings.Controls.OBC.CDL.Types.SimpleController"
+      },
       "S231:label": "controllerType",
       "S231:value": "Buildings.Controls.OBC.CDL.Types.SimpleController.PI"
     },
@@ -8499,8 +8507,12 @@
     },
     {
       "@id": "S231:Buildings.Controls.OBC.CDL.Reals.Sources.CalendarTime.zerTim",
+      "@type": "S231:Parameter",
       "S231:accessSpecifier": "public",
       "S231:description": "Enumeration for choosing how reference time (time = 0) should be defined",
+      "S231:isOfDataType": {
+        "@id": "S231:Buildings.Controls.OBC.CDL.Types.ZeroTime"
+      },
       "S231:label": "zerTim"
     },
     {
@@ -8955,8 +8967,12 @@
     },
     {
       "@id": "S231:Buildings.Controls.OBC.CDL.Reals.Sources.TimeTable.extrapolation",
+      "@type": "S231:Parameter",
       "S231:accessSpecifier": "public",
       "S231:description": "Extrapolation of data outside the definition range",
+      "S231:isOfDataType": {
+        "@id": "S231:Buildings.Controls.OBC.CDL.Types.Extrapolation"
+      },
       "S231:label": "extrapolation",
       "S231:value": "CDL.Types.Extrapolation.Periodic"
     },
@@ -8975,8 +8991,12 @@
     },
     {
       "@id": "S231:Buildings.Controls.OBC.CDL.Reals.Sources.TimeTable.smoothness",
+      "@type": "S231:Parameter",
       "S231:accessSpecifier": "public",
       "S231:description": "Smoothness of table interpolation",
+      "S231:isOfDataType": {
+        "@id": "S231:Buildings.Controls.OBC.CDL.Types.Smoothness"
+      },
       "S231:label": "smoothness",
       "S231:value": "CDL.Types.Smoothness.LinearSegments"
     },

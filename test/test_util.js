@@ -72,6 +72,7 @@ mo.describe('util', function () {
         'Parameter3.mo',
         'ParameterWithAttributes.mo',
         'ParameterWithDefaultName.mo',
+        'ParameterWithEnumeration.mo',
         'ParameterWithInfo.mo',
         'ParameterWithVendorAnnotationInInfo.mo',
         'PointList.mo',
@@ -133,6 +134,41 @@ mo.describe('util', function () {
       const actualOutput = ut.searchPath(['Enable'], 'Buildings.Templates.Plants.Controls.HeatRecoveryChillers', sourceFile)
       const expectedOutput = ut.getMoFiles('Buildings/Templates/Plants/Controls/HeatRecoveryChillers/Enable.mo')
       as.deepEqual(actualOutput, expectedOutput)
+    })
+  })
+  mo.describe('testing resolveEnumerationType()', function () {
+    // A declaration writes its type as the source does, so the same enumeration
+    // reaches this function fully qualified, partially qualified or relative to
+    // an enclosing package. All three must resolve to the same qualified name.
+    const sourceFile = ut.getMoFiles('Buildings.Controls.OBC.ASHRAE.G36.TerminalUnits.SeriesFanVVF.Controller.mo')[0]
+    const within = 'Buildings.Controls.OBC.ASHRAE.G36.TerminalUnits.SeriesFanVVF'
+
+    mo.it('resolves a fully qualified enumeration', function () {
+      const actualOutput = ut.resolveEnumerationType('Buildings.Controls.OBC.ASHRAE.G36.Types.VentilationStandard', within, sourceFile)
+      as.deepEqual(actualOutput, {
+        name: 'Buildings.Controls.OBC.ASHRAE.G36.Types.VentilationStandard',
+        within: 'Buildings.Controls.OBC.ASHRAE.G36.Types'
+      })
+    })
+    mo.it('resolves a partially qualified enumeration', function () {
+      const actualOutput = ut.resolveEnumerationType('CDL.Types.SimpleController', within, sourceFile)
+      as.deepEqual(actualOutput, {
+        name: 'Buildings.Controls.OBC.CDL.Types.SimpleController',
+        within: 'Buildings.Controls.OBC.CDL.Types'
+      })
+    })
+    mo.it('resolves an enumeration named relative to the enclosing package', function () {
+      const actualOutput = ut.resolveEnumerationType('Types.VentilationStandard', within, sourceFile)
+      as.deepEqual(actualOutput, {
+        name: 'Buildings.Controls.OBC.ASHRAE.G36.Types.VentilationStandard',
+        within: 'Buildings.Controls.OBC.ASHRAE.G36.Types'
+      })
+    })
+    mo.it('returns null for a built-in type', function () {
+      as.equal(ut.resolveEnumerationType('Boolean', within, sourceFile), null)
+    })
+    mo.it('returns null for a type that is not an enumeration', function () {
+      as.equal(ut.resolveEnumerationType('Buildings.Controls.OBC.CDL.Reals.PID', within, sourceFile), null)
     })
   })
   mo.describe('testing joinWithinPath()', function () {
