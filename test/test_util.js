@@ -174,6 +174,27 @@ mo.describe('util', function () {
         within: 'Buildings.Templates.Components.Types'
       })
     })
+    mo.it('resolves when MODELICAPATH points at the library directory itself', function () {
+      // Both conventions are in use: MODELICAPATH may hold the directory
+      // containing the library, or the library directory itself. searchPath
+      // only finds the class under the first, so resolution must not depend
+      // on it alone.
+      const marker = path.sep + 'Buildings' + path.sep
+      const buildingsDir = sourceFile.slice(0, sourceFile.indexOf(marker)) + path.sep + 'Buildings'
+      const previous = process.env.MODELICAPATH
+      process.env.MODELICAPATH = buildingsDir
+      try {
+        const actualOutput = ut.resolveEnumerationType(
+          'Buildings.Controls.OBC.ASHRAE.G36.Types.VentilationStandard', within, sourceFile)
+        as.deepEqual(actualOutput, {
+          name: 'Buildings.Controls.OBC.ASHRAE.G36.Types.VentilationStandard',
+          within: 'Buildings.Controls.OBC.ASHRAE.G36.Types'
+        })
+      } finally {
+        if (previous === undefined) delete process.env.MODELICAPATH
+        else process.env.MODELICAPATH = previous
+      }
+    })
     mo.it('returns null for a built-in type', function () {
       as.equal(ut.resolveEnumerationType('Boolean', within, sourceFile), null)
     })
