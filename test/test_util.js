@@ -44,6 +44,7 @@ mo.describe('util', function () {
         'BlockWithArray5.mo',
         'BlockWithBlock1.mo',
         'ConditionalBlock.mo',
+        'ConditionalBlockWithCompoundGuard.mo',
         'ConditionalBlockWithDefaultValue.mo',
         'CustomPWithLimiter.mo',
         'CustomPWithLimiterExtensionBlock.mo',
