@@ -116,4 +116,55 @@ mo.describe('cxfExtractor.js', function () {
       )
     })
   })
+
+  mo.describe('getCxfGraph() — indexed array instances in connect()', function () {
+    function component (typeSpecifier, arraySubscripts = '') {
+      return {
+        type: 'element',
+        type_prefix: '',
+        type_specifier: typeSpecifier,
+        compositionSpecifier: 'public',
+        isVector: arraySubscripts !== '',
+        arraySubscripts,
+        within: 'FromModelica'
+      }
+    }
+
+    function connectedTo (graph, id) {
+      const node = graph['@graph'].find(entry => decodeURIComponent(entry['@id']) === id)
+      const connections = node['S231:isConnectedTo'] || []
+      return (Array.isArray(connections) ? connections : [connections]).map(connection => decodeURIComponent(connection['@id']))
+    }
+
+    mo.it('preserves scalar indices and expands a known slice element-wise', function () {
+      const instances = {
+        IndexedArrayConnections: {
+          type: 'long_class_specifier',
+          class_prefixes: 'block',
+          within: 'FromModelica'
+        },
+        sources: component('Example.Source', '[2,3]'),
+        targets: component('Example.Target', '[2]'),
+        receiver: component('Example.Receiver'),
+        outputs: component('RealOutput', '[3]'),
+        inputs: component('RealInput', '[3]')
+      }
+      const requiredReferences = {
+        connections: {
+          'sources[2,3].y': ['targets[2].u'],
+          'sources[1,:].y': ['receiver.u'],
+          'outputs[2]': ['inputs[1]']
+        }
+      }
+
+      const graph = ce.getCxfGraph(instances, requiredReferences, 'IndexedArrayConnections', false, false)
+      const base = 'http://example.org#FromModelica.IndexedArrayConnections.'
+
+      as.deepEqual(connectedTo(graph, base + 'sources[2,3].y'), [base + 'targets[2].u'])
+      as.deepEqual(connectedTo(graph, base + 'outputs[2]'), [base + 'inputs[1]'])
+      for (let i = 1; i <= 3; i++) {
+        as.deepEqual(connectedTo(graph, base + `sources[1,${i}].y`), [base + `receiver.u[${i}]`])
+      }
+    })
+  })
 })
