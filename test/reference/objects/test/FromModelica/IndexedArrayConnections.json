@@ -1,0 +1,189 @@
+{
+  "instances": {
+    "IndexedArrayConnections": {
+      "within": "FromModelica",
+      "fullMoFilePath": "test/FromModelica/IndexedArrayConnections.mo",
+      "type": "long_class_specifier",
+      "class_prefixes": "block"
+    },
+    "con": {
+      "type_specifier": "Buildings.Controls.OBC.CDL.Reals.Sources.Constant",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "IndexedArrayConnections",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "con",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": "2"
+              }
+            },
+            {
+              "expression": {
+                "simple_expression": "3"
+              }
+            }
+          ],
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "each": true,
+                  "element_modification": {
+                    "name": "k",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "1"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Array of scalar sources"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "isVector": true,
+      "arraySubscripts": "[2,3]",
+      "replaceable": null,
+      "constraining_clause": null,
+      "within": "FromModelica",
+      "fullMoFilePath": "test/FromModelica/IndexedArrayConnections.mo"
+    },
+    "u": {
+      "type_specifier": "Buildings.Controls.OBC.CDL.Interfaces.RealInput",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "IndexedArrayConnections",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "u",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": "3"
+              }
+            }
+          ]
+        },
+        "description": {
+          "description_string": "Vector input connected from an array slice"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "isVector": true,
+      "arraySubscripts": "[3]",
+      "replaceable": null,
+      "constraining_clause": null,
+      "within": "FromModelica",
+      "fullMoFilePath": "test/FromModelica/IndexedArrayConnections.mo"
+    },
+    "uSca": {
+      "type_specifier": "Buildings.Controls.OBC.CDL.Interfaces.RealInput",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "IndexedArrayConnections",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "uSca"
+        },
+        "description": {
+          "description_string": "Scalar input connected from an indexed source"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "isVector": false,
+      "arraySubscripts": "",
+      "replaceable": null,
+      "constraining_clause": null,
+      "within": "FromModelica",
+      "fullMoFilePath": "test/FromModelica/IndexedArrayConnections.mo"
+    },
+    "uDir": {
+      "type_specifier": "Buildings.Controls.OBC.CDL.Interfaces.RealInput",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "IndexedArrayConnections",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "uDir",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": "3"
+              }
+            }
+          ]
+        },
+        "description": {
+          "description_string": "Vector input connected by an indexed connector"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "isVector": true,
+      "arraySubscripts": "[3]",
+      "replaceable": null,
+      "constraining_clause": null,
+      "within": "FromModelica",
+      "fullMoFilePath": "test/FromModelica/IndexedArrayConnections.mo"
+    },
+    "yDir": {
+      "type_specifier": "Buildings.Controls.OBC.CDL.Interfaces.RealOutput",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "IndexedArrayConnections",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "yDir",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": "3"
+              }
+            }
+          ]
+        },
+        "description": {
+          "description_string": "Vector output connected by an indexed connector"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "isVector": true,
+      "arraySubscripts": "[3]",
+      "replaceable": null,
+      "constraining_clause": null,
+      "within": "FromModelica",
+      "fullMoFilePath": "test/FromModelica/IndexedArrayConnections.mo"
+    }
+  },
+  "requiredReferences": {
+    "connections": {
+      "con[2,3].y": [
+        "uSca"
+      ],
+      "con[1,:].y": [
+        "u"
+      ],
+      "yDir[2]": [
+        "uDir[1]"
+      ]
+    }
+  }
+}
