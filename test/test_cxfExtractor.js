@@ -136,6 +136,18 @@ mo.describe('cxfExtractor.js', function () {
       return (Array.isArray(connections) ? connections : [connections]).map(connection => decodeURIComponent(connection['@id']))
     }
 
+    function instanceIds (graph, id) {
+      const node = graph['@graph'].find(entry => decodeURIComponent(entry['@id']) === id)
+      const instances = node['S231:hasInstance'] || []
+      return (Array.isArray(instances) ? instances : [instances]).map(instance => decodeURIComponent(instance['@id']))
+    }
+
+    function types (graph, id) {
+      const node = graph['@graph'].find(entry => decodeURIComponent(entry['@id']) === id)
+      const nodeTypes = node['@type'] || []
+      return Array.isArray(nodeTypes) ? nodeTypes : [nodeTypes]
+    }
+
     mo.it('preserves scalar indices and expands a known slice element-wise', function () {
       const instances = {
         IndexedArrayConnections: {
@@ -153,18 +165,42 @@ mo.describe('cxfExtractor.js', function () {
         connections: {
           'sources[2,3].y': ['targets[2].u'],
           'sources[1,:].y': ['receiver.u'],
-          'outputs[2]': ['inputs[1]']
+          'outputs[2]': ['inputs[1]'],
+          'sources[config.index,3].y': ['receiver.u']
         }
       }
 
       const graph = ce.getCxfGraph(instances, requiredReferences, 'IndexedArrayConnections', false, false)
       const base = 'http://example.org#FromModelica.IndexedArrayConnections.'
+      const compactBase = 'ex:FromModelica.IndexedArrayConnections.'
 
       as.deepEqual(connectedTo(graph, base + 'sources[2,3].y'), [base + 'targets[2].u'])
       as.deepEqual(connectedTo(graph, base + 'outputs[2]'), [base + 'inputs[1]'])
+      as.deepEqual(connectedTo(graph, base + 'sources[config.index,3].y'), [compactBase + 'receiver.u'])
+      as.ok(instanceIds(graph, compactBase + 'sources').includes(base + 'sources[2,3]'))
+      as.ok(instanceIds(graph, base + 'sources[2,3]').includes(base + 'sources[2,3].y'))
+      as.deepEqual(types(graph, base + 'outputs[2]'), ['S231:RealOutput'])
+      as.deepEqual(types(graph, base + 'inputs[1]'), ['S231:RealInput'])
       for (let i = 1; i <= 3; i++) {
         as.deepEqual(connectedTo(graph, base + `sources[1,${i}].y`), [base + `receiver.u[${i}]`])
       }
+    })
+
+    mo.it('rejects ranges until range expansion is implemented', function () {
+      const instances = {
+        IndexedArrayConnections: {
+          type: 'long_class_specifier',
+          class_prefixes: 'block',
+          within: 'FromModelica'
+        },
+        sources: component('Example.Source', '[2,3]'),
+        receiver: component('Example.Receiver')
+      }
+
+      as.throws(
+        () => ce.getCxfGraph(instances, { connections: { 'sources[1:2,3].y': ['receiver.u'] } }, 'IndexedArrayConnections', false, false),
+        /Cannot expand array range/
+      )
     })
   })
 })
