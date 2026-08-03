@@ -57,6 +57,7 @@ mo.describe('util', function () {
         'ExtendsClause_3.mo',
         'ExtendsClause_4.mo',
         'GainOutputsTwo.mo',
+        'IndexedArrayConnections.mo',
         'MisplacedInfoWithComponent.mo',
         'MisplacedInfoWithEquation.mo',
         'MisplacedInfoWithParameter.mo',

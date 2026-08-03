@@ -1,0 +1,145 @@
+{
+  "@context": {
+    "S231": "http://data.ashrae.org/S231#",
+    "ex": "http://example.org#"
+  },
+  "@graph": [
+    {
+      "@id": "ex:FromModelica.IndexedArrayConnections",
+      "@type": "S231:Block",
+      "S231:containsBlock": {
+        "@id": "ex:FromModelica.IndexedArrayConnections.con"
+      },
+      "S231:hasInput": [
+        {
+          "@id": "ex:FromModelica.IndexedArrayConnections.u"
+        },
+        {
+          "@id": "ex:FromModelica.IndexedArrayConnections.uDir"
+        },
+        {
+          "@id": "ex:FromModelica.IndexedArrayConnections.uSca"
+        }
+      ],
+      "S231:hasOutput": {
+        "@id": "ex:FromModelica.IndexedArrayConnections.yDir"
+      },
+      "S231:label": "IndexedArrayConnections"
+    },
+    {
+      "@id": "ex:FromModelica.IndexedArrayConnections.con",
+      "@type": "ex:Buildings.Controls.OBC.CDL.Reals.Sources.Constant",
+      "S231:accessSpecifier": "public",
+      "S231:description": "Array of scalar sources",
+      "S231:hasInstance": [
+        {
+          "@id": "ex:FromModelica.IndexedArrayConnections.con.k"
+        },
+        {
+          "@id": "http://example.org#FromModelica.IndexedArrayConnections.con%5B1,1%5D.y"
+        },
+        {
+          "@id": "http://example.org#FromModelica.IndexedArrayConnections.con%5B1,2%5D.y"
+        },
+        {
+          "@id": "http://example.org#FromModelica.IndexedArrayConnections.con%5B1,3%5D.y"
+        },
+        {
+          "@id": "http://example.org#FromModelica.IndexedArrayConnections.con%5B2,3%5D.y"
+        }
+      ],
+      "S231:isArray": true,
+      "S231:label": "con[2,3]",
+      "S231:numberDimensions": 2,
+      "S231:sizeOfDimensions": "(2,3)"
+    },
+    {
+      "@id": "ex:FromModelica.IndexedArrayConnections.con.k",
+      "S231:value": 1
+    },
+    {
+      "@id": "http://example.org#FromModelica.IndexedArrayConnections.con%5B1,1%5D.y",
+      "S231:isConnectedTo": {
+        "@id": "http://example.org#FromModelica.IndexedArrayConnections.u%5B1%5D"
+      }
+    },
+    {
+      "@id": "http://example.org#FromModelica.IndexedArrayConnections.con%5B1,2%5D.y",
+      "S231:isConnectedTo": {
+        "@id": "http://example.org#FromModelica.IndexedArrayConnections.u%5B2%5D"
+      }
+    },
+    {
+      "@id": "http://example.org#FromModelica.IndexedArrayConnections.con%5B1,3%5D.y",
+      "S231:isConnectedTo": {
+        "@id": "http://example.org#FromModelica.IndexedArrayConnections.u%5B3%5D"
+      }
+    },
+    {
+      "@id": "http://example.org#FromModelica.IndexedArrayConnections.con%5B2,3%5D.y",
+      "S231:isConnectedTo": {
+        "@id": "ex:FromModelica.IndexedArrayConnections.uSca"
+      }
+    },
+    {
+      "@id": "ex:FromModelica.IndexedArrayConnections.u",
+      "@type": "S231:RealInput",
+      "S231:accessSpecifier": "public",
+      "S231:description": "Vector input connected from an array slice",
+      "S231:hasInstance": [
+        {
+          "@id": "http://example.org#FromModelica.IndexedArrayConnections.u%5B1%5D"
+        },
+        {
+          "@id": "http://example.org#FromModelica.IndexedArrayConnections.u%5B2%5D"
+        },
+        {
+          "@id": "http://example.org#FromModelica.IndexedArrayConnections.u%5B3%5D"
+        }
+      ],
+      "S231:isArray": true,
+      "S231:label": "u[3]",
+      "S231:numberDimensions": 1,
+      "S231:sizeOfDimensions": "(3)"
+    },
+    {
+      "@id": "ex:FromModelica.IndexedArrayConnections.uDir",
+      "@type": "S231:RealInput",
+      "S231:accessSpecifier": "public",
+      "S231:description": "Vector input connected by an indexed connector",
+      "S231:hasInstance": {
+        "@id": "http://example.org#FromModelica.IndexedArrayConnections.uDir%5B1%5D"
+      },
+      "S231:isArray": true,
+      "S231:label": "uDir[3]",
+      "S231:numberDimensions": 1,
+      "S231:sizeOfDimensions": "(3)"
+    },
+    {
+      "@id": "ex:FromModelica.IndexedArrayConnections.uSca",
+      "@type": "S231:RealInput",
+      "S231:accessSpecifier": "public",
+      "S231:description": "Scalar input connected from an indexed source",
+      "S231:label": "uSca"
+    },
+    {
+      "@id": "ex:FromModelica.IndexedArrayConnections.yDir",
+      "@type": "S231:RealOutput",
+      "S231:accessSpecifier": "public",
+      "S231:description": "Vector output connected by an indexed connector",
+      "S231:hasInstance": {
+        "@id": "http://example.org#FromModelica.IndexedArrayConnections.yDir%5B2%5D"
+      },
+      "S231:isArray": true,
+      "S231:label": "yDir[3]",
+      "S231:numberDimensions": 1,
+      "S231:sizeOfDimensions": "(3)"
+    },
+    {
+      "@id": "http://example.org#FromModelica.IndexedArrayConnections.yDir%5B2%5D",
+      "S231:isConnectedTo": {
+        "@id": "http://example.org#FromModelica.IndexedArrayConnections.uDir%5B1%5D"
+      }
+    }
+  ]
+}
