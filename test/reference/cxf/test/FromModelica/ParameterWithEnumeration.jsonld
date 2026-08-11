@@ -7,6 +7,7 @@
     {
       "@id": "ex:FromModelica.ParameterWithEnumeration",
       "@type": "S231:Block",
+      "S231:description": "Block with enumeration-typed parameters",
       "S231:hasParameter": [
         {
           "@id": "ex:FromModelica.ParameterWithEnumeration.conTyp"

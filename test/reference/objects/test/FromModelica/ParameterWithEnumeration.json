@@ -4,6 +4,7 @@
       "within": "FromModelica",
       "fullMoFilePath": "/Users/pontus/workspace/dev/ktc/modelica-json-fork/test/FromModelica/ParameterWithEnumeration.mo",
       "type": "long_class_specifier",
+      "description_string": "Block with enumeration-typed parameters",
       "class_prefixes": "block"
     },
     "eNoDefault": {
@@ -26,6 +27,7 @@
       "isVector": false,
       "arraySubscripts": "",
       "replaceable": null,
+      "final": null,
       "constraining_clause": null,
       "within": "FromModelica",
       "fullMoFilePath": "/Users/pontus/workspace/dev/ktc/modelica-json-fork/test/FromModelica/ParameterWithEnumeration.mo"
@@ -56,6 +58,7 @@
       "isVector": false,
       "arraySubscripts": "",
       "replaceable": null,
+      "final": null,
       "constraining_clause": null,
       "within": "FromModelica",
       "fullMoFilePath": "/Users/pontus/workspace/dev/ktc/modelica-json-fork/test/FromModelica/ParameterWithEnumeration.mo"
@@ -86,6 +89,7 @@
       "isVector": false,
       "arraySubscripts": "",
       "replaceable": null,
+      "final": null,
       "constraining_clause": null,
       "within": "FromModelica",
       "fullMoFilePath": "/Users/pontus/workspace/dev/ktc/modelica-json-fork/test/FromModelica/ParameterWithEnumeration.mo"

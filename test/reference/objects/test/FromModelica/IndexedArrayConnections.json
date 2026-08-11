@@ -4,6 +4,7 @@
       "within": "FromModelica",
       "fullMoFilePath": "test/FromModelica/IndexedArrayConnections.mo",
       "type": "long_class_specifier",
+      "description_string": "Indexed array references in connect statements",
       "class_prefixes": "block"
     },
     "con": {
@@ -55,6 +56,7 @@
       "isVector": true,
       "arraySubscripts": "[2,3]",
       "replaceable": null,
+      "final": null,
       "constraining_clause": null,
       "within": "FromModelica",
       "fullMoFilePath": "test/FromModelica/IndexedArrayConnections.mo"
@@ -85,6 +87,7 @@
       "isVector": true,
       "arraySubscripts": "[3]",
       "replaceable": null,
+      "final": null,
       "constraining_clause": null,
       "within": "FromModelica",
       "fullMoFilePath": "test/FromModelica/IndexedArrayConnections.mo"
@@ -108,6 +111,7 @@
       "isVector": false,
       "arraySubscripts": "",
       "replaceable": null,
+      "final": null,
       "constraining_clause": null,
       "within": "FromModelica",
       "fullMoFilePath": "test/FromModelica/IndexedArrayConnections.mo"
@@ -138,6 +142,7 @@
       "isVector": true,
       "arraySubscripts": "[3]",
       "replaceable": null,
+      "final": null,
       "constraining_clause": null,
       "within": "FromModelica",
       "fullMoFilePath": "test/FromModelica/IndexedArrayConnections.mo"
@@ -168,6 +173,7 @@
       "isVector": true,
       "arraySubscripts": "[3]",
       "replaceable": null,
+      "final": null,
       "constraining_clause": null,
       "within": "FromModelica",
       "fullMoFilePath": "test/FromModelica/IndexedArrayConnections.mo"

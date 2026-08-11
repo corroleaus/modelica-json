@@ -10,6 +10,7 @@
       "S231:containsBlock": {
         "@id": "ex:FromModelica.IndexedArrayConnections.con"
       },
+      "S231:description": "Indexed array references in connect statements",
       "S231:hasInput": [
         {
           "@id": "ex:FromModelica.IndexedArrayConnections.u"
