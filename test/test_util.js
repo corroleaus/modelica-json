@@ -135,6 +135,45 @@ mo.describe('util', function () {
       as.deepEqual(actualOutput, expectedOutput)
     })
   })
+  mo.describe('testing resolveTypeSpecifier()', function () {
+    // A component may name its type relative to an enclosing package, which
+    // Modelica resolves by walking outwards. G36's TrimAndRespond declares
+    // `CDL.Reals.Sources.Constant resAmoCon`, and `CDL` resolves to
+    // `Buildings.Controls.OBC.CDL` from inside `...OBC.ASHRAE.G36.Generic`.
+    // Emitted verbatim, the type names a class that does not exist, and a
+    // consumer cannot tell it apart from a real dependency.
+    const within = 'Buildings.Controls.OBC.ASHRAE.G36.Generic'
+    let sourceFile = ut.getMoFiles('Buildings.Controls.OBC.ASHRAE.G36.Generic.TrimAndRespond.mo')
+
+    mo.it('qualifies a relative, dotted type specifier', function () {
+      as.equal(sourceFile.length, 1, 'TrimAndRespond.mo not found; check MODELICAPATH')
+      as.equal(
+        ut.resolveTypeSpecifier('CDL.Reals.Sources.Constant', within, sourceFile[0]),
+        'Buildings.Controls.OBC.CDL.Reals.Sources.Constant'
+      )
+    })
+
+    mo.it('leaves an already-qualified type specifier alone', function () {
+      as.equal(
+        ut.resolveTypeSpecifier('Buildings.Controls.OBC.CDL.Logical.Not', within, sourceFile[0]),
+        'Buildings.Controls.OBC.CDL.Logical.Not'
+      )
+    })
+
+    mo.it('still qualifies a single-segment type specifier', function () {
+      as.equal(
+        ut.resolveTypeSpecifier('TrimAndRespond', within, sourceFile[0]),
+        'Buildings.Controls.OBC.ASHRAE.G36.Generic.TrimAndRespond'
+      )
+    })
+
+    mo.it('returns an unresolvable specifier unchanged', function () {
+      as.equal(
+        ut.resolveTypeSpecifier('Not.A.Real.Class', within, sourceFile[0]),
+        'Not.A.Real.Class'
+      )
+    })
+  })
   mo.describe('testing joinWithinPath()', function () {
     mo.it('testing with current directory modelicapath', function () {
       const moPath = __dirname
