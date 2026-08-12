@@ -117,3 +117,35 @@ mo.describe('cxfExtractor.js', function () {
     })
   })
 })
+
+mo.describe('getDataTypeNode: MSL Real-derived type aliases', function () {
+  // `Modelica.Units.SI` (and its predecessors) contain exclusively
+  // Real-derived quantity types — `type Time = Real(final quantity="Time",
+  // final unit="s")` and friends. A parameter declared with one, e.g.
+  // Buildings.Controls.SetPoints.OccupancySchedule's
+  // `parameter Modelica.Units.SI.Time period`, previously yielded no
+  // S231:isOfDataType triple at all, so strict CXF consumers rejected the
+  // block (CXF_MISSING_REQUIRED).
+  const s231Ns = name => ({ s231: name })
+  const cxfPrefix = name => ({ ex: name })
+
+  mo.it('maps Modelica.Units.SI.Time to S231:Real', function () {
+    const node = ce.getDataTypeNode('Modelica.Units.SI.Time', { within: 'X', fullMoFilePath: '/x.mo' }, s231Ns, cxfPrefix)
+    as.deepEqual(node, { s231: 'Real' })
+  })
+
+  mo.it('maps the legacy Modelica.SIunits spelling', function () {
+    const node = ce.getDataTypeNode('Modelica.SIunits.Temperature', { within: 'X', fullMoFilePath: '/x.mo' }, s231Ns, cxfPrefix)
+    as.deepEqual(node, { s231: 'Real' })
+  })
+
+  mo.it('maps Modelica.Units.NonSI aliases', function () {
+    const node = ce.getDataTypeNode('Modelica.Units.NonSI.Temperature_degC', { within: 'X', fullMoFilePath: '/x.mo' }, s231Ns, cxfPrefix)
+    as.deepEqual(node, { s231: 'Real' })
+  })
+
+  mo.it('still yields null for an unknown non-MSL alias', function () {
+    const node = ce.getDataTypeNode('Some.Custom.Alias', { within: 'X', fullMoFilePath: '/x.mo' }, s231Ns, cxfPrefix)
+    as.equal(node, null)
+  })
+})
