@@ -194,7 +194,7 @@
       "S231:accessSpecifier": "public",
       "S231:description": "Threshold",
       "S231:isOfDataType": {
-        "@id": "S231:Real"
+        "@id": "S231:Integer"
       },
       "S231:label": "k",
       "S231:value": 1
