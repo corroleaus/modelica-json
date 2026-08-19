@@ -102,7 +102,7 @@
     },
     "k": {
       "type_prefix": "parameter",
-      "type_specifier": "Real",
+      "type_specifier": "Integer",
       "type": "element",
       "compositionSpecifier": "public",
       "long_class_specifier_identifier": "ConditionalBlockWithCompoundGuard",

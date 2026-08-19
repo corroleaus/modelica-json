@@ -4,7 +4,7 @@ block ConditionalBlockWithCompoundGuard
   parameter Boolean have_a = true "First flag";
   parameter Boolean have_b = false "Second flag";
   parameter Boolean have_c = true "Third flag";
-  parameter Real k = 1 "Threshold";
+  parameter Integer k = 1 "Threshold";
 
   Buildings.Controls.OBC.CDL.Reals.Abs absNot if not have_a
     "Guarded by a negation"
