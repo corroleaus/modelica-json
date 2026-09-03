@@ -11151,13 +11151,13 @@
       "@id": "S231:EnumerationDatatype",
       "@type": "rdfs:Class",
       "rdfs:subClassOf": {
-        "@id": "S231:Datatype"
+        "@id": "S231:DataType"
       }
     },
     {
       "@id": "S231:EnumerationType",
       "@type": [
-        "S231:Datatype",
+        "S231:DataType",
         "S231:EnumerationDatatype"
       ]
     },
@@ -11974,7 +11974,7 @@
     {
       "@id": "S231:Real",
       "@type": [
-        "S231:Datatype",
+        "S231:DataType",
         "S231:RealDatatype"
       ]
     },
@@ -11982,7 +11982,7 @@
       "@id": "S231:RealDatatype",
       "@type": "rdfs:Class",
       "rdfs:subClassOf": {
-        "@id": "S231:Datatype"
+        "@id": "S231:DataType"
       }
     },
     {
@@ -12052,7 +12052,7 @@
     {
       "@id": "S231:String",
       "@type": [
-        "S231:Datatype",
+        "S231:DataType",
         "S231:StringDatatype"
       ],
       "rdfs:comment": "A data type to represent text"
@@ -12061,7 +12061,7 @@
       "@id": "S231:StringDatatype",
       "@type": "rdfs:Class",
       "rdfs:subClassOf": {
-        "@id": "S231:Datatype"
+        "@id": "S231:DataType"
       }
     },
     {
