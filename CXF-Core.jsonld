@@ -10211,8 +10211,7 @@
       "@id": "S231:Buildings.Controls.OBC.CDL.Types.Extrapolation",
       "@type": "S231:EnumerationDatatype",
       "S231:description": "Enumeration defining the extrapolation of time table interpolation",
-      "S231:label": "Extrapolation",
-      "S231:value": "Extrapolation"
+      "S231:label": "Extrapolation"
     },
     {
       "@id": "S231:Extrapolation.HoldLastPoint",
@@ -10239,8 +10238,7 @@
       "@id": "S231:Buildings.Controls.OBC.CDL.Types.SimpleController",
       "@type": "S231:EnumerationDatatype",
       "S231:description": "Enumeration defining P, PI, PD, or PID simple controller type",
-      "S231:label": "SimpleController",
-      "S231:value": "SimpleController"
+      "S231:label": "SimpleController"
     },
     {
       "@id": "S231:SimpleController.P",
@@ -10274,8 +10272,7 @@
       "@id": "S231:Buildings.Controls.OBC.CDL.Types.Smoothness",
       "@type": "S231:EnumerationDatatype",
       "S231:description": "Enumeration defining the smoothness of table interpolation",
-      "S231:label": "Smoothness",
-      "S231:value": "Smoothness"
+      "S231:label": "Smoothness"
     },
     {
       "@id": "S231:Smoothness.ConstantSegments",
@@ -10295,8 +10292,7 @@
       "@id": "S231:Buildings.Controls.OBC.CDL.Types.ZeroTime",
       "@type": "S231:EnumerationDatatype",
       "S231:description": "Use this to set the date corresponding to time = 0",
-      "S231:label": "ZeroTime",
-      "S231:value": "ZeroTime"
+      "S231:label": "ZeroTime"
     },
     {
       "@id": "S231:ZeroTime.Custom",
