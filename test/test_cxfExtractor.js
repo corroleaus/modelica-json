@@ -243,6 +243,84 @@ mo.describe('cxfExtractor.js', function () {
       as.strictEqual(uRef['qudt:hasUnit'], undefined)
     })
   })
+
+  mo.describe('for-loop connect equations', function () {
+    const errorsDir = path.join(__dirname, 'ForLoopErrors')
+    const moFile = path.join(__dirname, 'FromModelica', 'ForLoopConnections.mo')
+    const cxfFile = path.join(process.cwd(), 'cxf', 'test', 'FromModelica', 'ForLoopConnections.jsonld')
+    let graph
+
+    /** Every (from, to) pair the graph connects, as `@id` strings. */
+    function edges () {
+      const out = []
+      graph.forEach(node => {
+        const to = node['S231:isConnectedTo']
+        if (to === undefined) return
+        const targets = Array.isArray(to) ? to : [to]
+        targets.forEach(t => out.push([node['@id'], t['@id']]))
+      })
+      return out
+    }
+
+    mo.before(function () {
+      // CXF is written in 'cdl' mode only (the default).
+      pa.getJsons([moFile], 'cxf', 'current', true, false, false, 'cdl')
+      graph = JSON.parse(fs.readFileSync(cxfFile, 'utf8'))['@graph']
+      // getCxfFromModelica reads the objects JSON a 'modelica'-mode pass
+      // writes (no CXF is produced in that mode, so nothing throws here).
+      const errorFiles = ['Broadcast', 'OffsetRange', 'DerivedIndex', 'NestedLoop', 'PartialRange', 'MixedBody']
+        .map(name => path.join(errorsDir, name + '.mo'))
+      pa.getJsons(errorFiles, 'cxf', 'current', true, false, false, 'modelica')
+    })
+
+    mo.it('maps a full-cover loop to one wholesale connection per connect', function () {
+      const p = 'ex:FromModelica.ForLoopConnections.'
+      const expected = [
+        [p + 'u', p + 'gai.u'],
+        [p + 'gai.y', p + 'abs1.u'],
+        [p + 'abs1.y', p + 'y'],
+        [p + 'abs1.y', p + 'mulSum.u'],
+        [p + 'con.y', p + 'abs2.u'],
+        [p + 'mulSum.y', p + 'ySum']
+      ]
+      const actual = edges().map(e => e.join(' -> ')).sort()
+      as.deepStrictEqual(actual, expected.map(e => e.join(' -> ')).sort())
+    })
+
+    mo.it('writes no per-element nodes for loop-connected elements', function () {
+      as.ok(graph.every(node => !node['@id'].includes('%5B')), 'found an element node')
+    })
+
+    /** Build the CXF graph of one ForLoopErrors block from the objects JSON
+     *  the before hook wrote — the same path `getJsons` takes for a CDL
+     *  block (getCxfFromModelica is the template-model entry and does
+     *  nothing for a block without a control instance). */
+    function cxfGraphOf (name) {
+      const objectsFile = path.join(process.cwd(), 'objects', 'test', 'ForLoopErrors', name + '.json')
+      const objects = JSON.parse(fs.readFileSync(objectsFile, 'utf8'))
+      return ce.getCxfGraph(objects.instances, objects.requiredReferences, name, false, false, directory)
+    }
+
+    mo.it('maps the connects of a loop whose body also has a non-connect equation', function () {
+      as.doesNotThrow(function () { cxfGraphOf('MixedBody') })
+    })
+
+    const refused = [
+      ['Broadcast', /does not use the loop index/],
+      ['OffsetRange', /lower bound is not 1/],
+      ['DerivedIndex', /uses a derived index/],
+      ['NestedLoop', /nested/],
+      ['PartialRange', /does not cover/]
+    ]
+    refused.forEach(([name, reason]) => {
+      mo.it(`refuses ${name}.mo with a reason`, function () {
+        as.throws(
+          function () { cxfGraphOf(name) },
+          new RegExp('cannot express for-loop connect.*' + reason.source)
+        )
+      })
+    })
+  })
 })
 
 mo.describe('getDataTypeNode: MSL Real-derived type aliases', function () {
