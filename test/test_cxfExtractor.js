@@ -243,12 +243,25 @@ mo.describe('cxfExtractor.js', function () {
         [p + 'con.y', p + 'abs2.u'],
         [p + 'mulSum.y', p + 'ySum']
       ]
-      const actual = edges().map(e => e.join(' -> ')).sort()
+      // The literal-size fan-out (zero.y) is covered by its own test below.
+      const actual = edges().filter(([from]) => !from.endsWith('.zero.y')).map(e => e.join(' -> ')).sort()
       as.deepStrictEqual(actual, expected.map(e => e.join(' -> ')).sort())
     })
 
-    mo.it('writes no per-element nodes for loop-connected elements', function () {
-      as.ok(graph.every(node => !node['@id'].includes('%5B')), 'found an element node')
+    mo.it('writes no per-element nodes for wholesale-mapped arrays', function () {
+      const wholesale = /ForLoopConnections\.(u|y|gai|abs1|abs2|con)%5B/
+      as.ok(graph.every(node => !wholesale.test(node['@id'])), 'found an element node of a wholesale-mapped array')
+    })
+
+    mo.it('unrolls a literal-size fan-out to one edge per element', function () {
+      // `for i in 1:3 loop connect(zero.y, lit[i].u)` has no wholesale form
+      // (zero.y is a scalar), but with a literal bound the three edges are
+      // known at translation time: plain CXF, one edge per element.
+      const targets = edges()
+        .filter(([from]) => from.endsWith('ForLoopConnections.zero.y'))
+        .map(([, to]) => decodeURIComponent(to).split('ForLoopConnections.')[1])
+        .sort()
+      as.deepStrictEqual(targets, ['lit[1].u', 'lit[2].u', 'lit[3].u'])
     })
 
     /** Build the CXF graph of one ForLoopErrors block from the objects JSON

@@ -18,6 +18,10 @@ block ForLoopConnections
     "Array sized by an expression";
   Buildings.Controls.OBC.CDL.Reals.Abs abs2[n-1]
     "Array sized by the same expression";
+  Buildings.Controls.OBC.CDL.Reals.Sources.Constant zero(k=0)
+    "Scalar source fanned out by a literal-size loop";
+  Buildings.Controls.OBC.CDL.Reals.Abs lit[3]
+    "Literal-size array: the fan-out unrolls to three element edges";
 equation
   for i in 1:n loop
     connect(u[i], gai[i].u);
@@ -27,6 +31,9 @@ equation
   end for;
   for i in 1:n-1 loop
     connect(con[i].y, abs2[i].u);
+  end for;
+  for i in 1:3 loop
+    connect(zero.y, lit[i].u);
   end for;
   connect(mulSum.y, ySum);
 end ForLoopConnections;
