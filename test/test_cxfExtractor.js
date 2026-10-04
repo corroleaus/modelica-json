@@ -203,6 +203,46 @@ mo.describe('cxfExtractor.js', function () {
       )
     })
   })
+
+  mo.describe('String parameter values (S231:value is Modelica expression text)', function () {
+    const moFile = path.join(__dirname, 'FromModelica', 'StringParameters.mo')
+    const cxfFile = path.join(process.cwd(), 'cxf', 'test', 'FromModelica', 'StringParameters.jsonld')
+    let graph
+
+    function nodeById (id) {
+      const node = graph.find(n => n['@id'] === id)
+      as.ok(node !== undefined, `node ${id} missing from the CXF graph`)
+      return node
+    }
+
+    mo.before(function () {
+      // CXF is written in 'cdl' mode only (the default), as the FromModelica
+      // regression in test_parser.js runs it.
+      pa.getJsons([moFile], 'cxf', 'current', true, false, false, 'cdl')
+      graph = JSON.parse(fs.readFileSync(cxfFile, 'utf8'))['@graph']
+    })
+
+    mo.it('keeps the quotes of a string literal', function () {
+      as.strictEqual(nodeById('ex:FromModelica.StringParameters.quantityUnit')['S231:value'], '"W"')
+      as.strictEqual(nodeById('ex:FromModelica.StringParameters.compoundUnit')['S231:value'], '"kg/s"')
+    })
+
+    mo.it('writes a parameter reference as the bare identifier', function () {
+      as.strictEqual(nodeById('ex:FromModelica.StringParameters.unitAlias')['S231:value'], 'quantityUnit')
+    })
+
+    mo.it('does not turn the text "true" into a Boolean', function () {
+      as.strictEqual(nodeById('ex:FromModelica.StringParameters.notABoolean')['S231:value'], '"true"')
+      as.strictEqual(nodeById('ex:FromModelica.StringParameters.isBoolean')['S231:value'], true)
+    })
+
+    mo.it('emits a unit for a literal and no unit for a parameter reference', function () {
+      const uLit = nodeById('ex:FromModelica.StringParameters.uLit')
+      as.deepStrictEqual(uLit['qudt:hasUnit'], { '@id': 'unit:W' })
+      const uRef = nodeById('ex:FromModelica.StringParameters.uRef')
+      as.strictEqual(uRef['qudt:hasUnit'], undefined)
+    })
+  })
 })
 
 mo.describe('getDataTypeNode: MSL Real-derived type aliases', function () {
