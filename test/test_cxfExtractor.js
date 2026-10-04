@@ -321,6 +321,31 @@ mo.describe('cxfExtractor.js', function () {
       })
     })
   })
+
+  mo.describe('pass-through equations (y = u)', function () {
+    const moFile = path.join(__dirname, 'FromModelica', 'PassthroughEquation.mo')
+    const cxfFile = path.join(process.cwd(), 'cxf', 'test', 'FromModelica', 'PassthroughEquation.jsonld')
+    const objFile = path.join(process.cwd(), 'objects', 'test', 'FromModelica', 'PassthroughEquation.json')
+    let graph
+
+    mo.before(function () {
+      // CXF is written in 'cdl' mode only (the default).
+      pa.getJsons([moFile], 'cxf', 'current', true, false, false, 'cdl')
+      graph = JSON.parse(fs.readFileSync(cxfFile, 'utf8'))['@graph']
+    })
+
+    mo.it('connects the input to the output it is assigned to', function () {
+      const u = graph.find(n => n['@id'] === 'ex:FromModelica.PassthroughEquation.u')
+      const to = u['S231:isConnectedTo']
+      const targets = (Array.isArray(to) ? to : [to]).map(t => t['@id']).sort()
+      as.deepStrictEqual(targets, ['ex:FromModelica.PassthroughEquation.abs1.u', 'ex:FromModelica.PassthroughEquation.yInAct'])
+    })
+
+    mo.it('records the pass-through in the objects JSON and nothing else', function () {
+      const objects = JSON.parse(fs.readFileSync(objFile, 'utf8'))
+      as.deepStrictEqual(objects.requiredReferences.passthroughEquations, [{ from: 'u', to: 'yInAct' }])
+    })
+  })
 })
 
 mo.describe('getDataTypeNode: MSL Real-derived type aliases', function () {

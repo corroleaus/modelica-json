@@ -78,6 +78,7 @@ mo.describe('util', function () {
         'ParameterWithEnumeration.mo',
         'ParameterWithInfo.mo',
         'ParameterWithVendorAnnotationInInfo.mo',
+        'PassthroughEquation.mo',
         'PointList.mo',
         'RedeclaredBlock.mo',
         'RemovableInputs.mo',
