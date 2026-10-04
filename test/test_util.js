@@ -82,6 +82,7 @@ mo.describe('util', function () {
         'RemovableInputs.mo',
         'ReplaceableBlock.mo',
         'ReplaceableCDL.mo',
+        'StringParameters.mo',
         'SubController.mo',
         'SubControllerWithSemantics.mo',
         'TestEvaluation_1.mo',
