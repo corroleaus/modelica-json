@@ -8,10 +8,13 @@ block PassthroughEquation
     "Output through a block";
   Buildings.Controls.OBC.CDL.Interfaces.RealOutput yInAct
     "Output equal to the input";
+  Buildings.Controls.OBC.CDL.Interfaces.RealOutput yBackwards
+    "Output equal to the input, with the input on the left";
   Buildings.Controls.OBC.CDL.Reals.Abs abs1
     "A block";
 equation
   connect(u, abs1.u);
   connect(abs1.y, y);
   yInAct = u;
+  u = yBackwards;
 end PassthroughEquation;

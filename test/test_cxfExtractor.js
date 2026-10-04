@@ -334,16 +334,36 @@ mo.describe('cxfExtractor.js', function () {
       graph = JSON.parse(fs.readFileSync(cxfFile, 'utf8'))['@graph']
     })
 
-    mo.it('connects the input to the output it is assigned to', function () {
+    mo.it('connects the input to the output it is assigned to, whichever side it is written on', function () {
+      // `yInAct = u` and `u = yBackwards` are the same acausal equation shape;
+      // the edge always runs from the input into the output.
       const u = graph.find(n => n['@id'] === 'ex:FromModelica.PassthroughEquation.u')
       const to = u['S231:isConnectedTo']
       const targets = (Array.isArray(to) ? to : [to]).map(t => t['@id']).sort()
-      as.deepStrictEqual(targets, ['ex:FromModelica.PassthroughEquation.abs1.u', 'ex:FromModelica.PassthroughEquation.yInAct'])
+      as.deepStrictEqual(targets, [
+        'ex:FromModelica.PassthroughEquation.abs1.u',
+        'ex:FromModelica.PassthroughEquation.yBackwards',
+        'ex:FromModelica.PassthroughEquation.yInAct'
+      ])
+      const yBackwards = graph.find(n => n['@id'] === 'ex:FromModelica.PassthroughEquation.yBackwards')
+      as.strictEqual(yBackwards['S231:isConnectedTo'], undefined, 'an output must not connect into the input')
     })
 
-    mo.it('records the pass-through in the objects JSON and nothing else', function () {
+    mo.it('records the pass-throughs in the objects JSON, input first', function () {
       const objects = JSON.parse(fs.readFileSync(objFile, 'utf8'))
-      as.deepStrictEqual(objects.requiredReferences.passthroughEquations, [{ from: 'u', to: 'yInAct' }])
+      as.deepStrictEqual(objects.requiredReferences.passthroughEquations, [
+        { from: 'u', to: 'yInAct' },
+        { from: 'u', to: 'yBackwards' }
+      ])
+      as.deepStrictEqual(objects.requiredReferences.connections, { u: ['abs1.u'], 'abs1.y': ['y'] })
+    })
+
+    mo.it('leaves an elementary block\'s objects JSON alone (IntegerToReal has y = u)', function () {
+      const moFiles = ut.getMoFiles('Buildings.Controls.OBC.CDL.Conversions.IntegerToReal')
+      as.ok(moFiles.length > 0, 'IntegerToReal.mo not found on MODELICAPATH')
+      pa.getJsons([moFiles[0]], 'cxf', 'current', true, false, false, 'modelica')
+      const objects = JSON.parse(fs.readFileSync(path.join(process.cwd(), 'objects', 'Buildings', 'Controls', 'OBC', 'CDL', 'Conversions', 'IntegerToReal.json'), 'utf8'))
+      as.strictEqual(objects.requiredReferences.passthroughEquations, undefined)
     })
   })
 })
