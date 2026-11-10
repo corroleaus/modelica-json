@@ -1,9 +1,9 @@
 {
   "@context": {
     "S231": "http://data.ashrae.org/S231#",
-    "qudt": "http://qudt.org/schema/qudt#",
-    "unit": "http://qudt.org/vocab/unit#",
-    "q": "http://qudt.org/vocab/quantitykind#",
+    "qudt": "http://qudt.org/schema/qudt/",
+    "unit": "http://qudt.org/vocab/unit/",
+    "q": "http://qudt.org/vocab/quantitykind/",
     "ex": "http://example.org#"
   },
   "@graph": [
@@ -30,6 +30,7 @@
           "@id": "ex:Buildings.Controls.OBC.ASHRAE.G36.AHUs.SingleZone.VAV.SetPoints.CoolingCoil.switch"
         }
       ],
+      "S231:description": "Controller for cooling coil valve",
       "S231:diagram": "coordinateSystem(preserveAspectRatio=false)",
       "S231:documentation": "info=<html>\n<p>\nThis block outputs the cooling coil control signal if the fan is on and the zone is\nin cooling status (see\n<a href=\\modelica://Buildings.Controls.OBC.ASHRAE.G36.Types.ZoneStates\\>\nBuildings.Controls.OBC.ASHRAE.G36.Types.ZoneStates</a>).\nOtherwise, the control signal for the coil is set to <code>0</code>.\nThe implementation is according to the Section 5.18.5.3 of ASHRAE Guideline 36, May 2020.\n</p>\n</html>,revisions=<html>\n<ul>\n<li>\nAugust 1, 2020, by Jianjun Hu:<br/>\nFirst implementation based on G36 official version.\n</li>\n</ul>\n</html>",
       "S231:hasInput": [
@@ -286,7 +287,7 @@
         "@type": "http://www.w3.org/2001/XMLSchema#decimal"
       },
       "qudt:hasUnit": {
-        "@id": "http://data.ashrae.org/S231#1/K"
+        "@id": "unit:PER-K"
       }
     },
     {
